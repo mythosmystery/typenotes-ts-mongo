@@ -1,11 +1,11 @@
 import { ObjectType, Field, ID } from 'type-graphql'
-import type { Document as MDoc } from 'mongodb'
+import type { Document as MDoc, ObjectId } from 'mongodb'
 import { Note } from './NoteModel'
 
 @ObjectType()
 export class User implements MDoc {
   @Field(type => ID)
-  _id: string
+  _id?: ObjectId
 
   @Field()
   email: string

@@ -8,7 +8,7 @@ export class UserResolver {
   private userService = new UserService()
 
   @Authorized()
-  @Query(type => [User])
+  @Query(type => User)
   async me(@Ctx() ctx: Context) {
     return this.userService.findById(ctx.user!._id)
   }

@@ -4,9 +4,13 @@ import { buildSchema } from 'type-graphql'
 import resolvers from './resolvers'
 import { startDB } from './db'
 import express from 'express'
-import { expressjwt as jwt } from 'express-jwt'
-import { ApolloContext, Context } from './types'
+import { Request } from 'express-jwt'
+import cors from 'cors'
+import jwt from 'jsonwebtoken'
+import { ApolloContext, Context, TokenUser } from './types'
 import { customAuthChecker } from './auth/authChecker'
+import { decodeToken } from './auth/authUtils'
+import { authMiddleware } from './auth/middleware'
 
 const app = express()
 const path = '/gql'
@@ -26,14 +30,7 @@ async function main() {
     }
   })
 
-  app.use(
-    path,
-    jwt({
-      credentialsRequired: false,
-      secret: 'sdofjhsodfijoaidjfoaisjdoiajsd',
-      algorithms: ['HS256']
-    })
-  )
+  app.use(path, authMiddleware)
 
   await server.start()
   // Apply the GraphQL server middleware
