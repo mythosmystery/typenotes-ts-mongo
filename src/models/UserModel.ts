@@ -30,6 +30,9 @@ export class User implements MDoc {
   @Field()
   updatedAt: Date
 
+  @Field({ defaultValue: 'active' })
+  status: string
+
   constructor() {
     this.createdAt = new Date()
     this.updatedAt = new Date()

@@ -8,7 +8,8 @@ import {
   Root,
   InputType,
   Mutation,
-  Arg
+  Arg,
+  UseMiddleware
 } from 'type-graphql'
 import { Note, User } from '../models'
 import { UserService } from '../services/UserService'

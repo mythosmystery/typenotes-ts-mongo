@@ -6,6 +6,7 @@ async function createIndexes() {
   const db = getDB()
   await db.collection('User').createIndex({ email: 1 }, { unique: true })
   await db.collection('User').createIndex({ username: 1 }, { unique: true })
+  await db.collection('Note').createIndex({ createdBy: 1 })
 }
 
 createIndexes()

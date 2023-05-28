@@ -26,7 +26,7 @@ export class UserService {
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await this.db.findOne({ email })
+    const user = await this.db.findOne({ email, status: 'active' })
     if (!user) throw new Error(`User with email ${email} not found`)
     return user
   }
@@ -45,7 +45,10 @@ export class UserService {
 
   async update(user: Partial<User>): Promise<User> {
     const { _id, ...rest } = user
-    await this.db.updateOne({ _id }, { $set: rest })
+    await this.db.updateOne(
+      { _id },
+      { $set: { ...rest, updatedAt: new Date() } }
+    )
     return this.findById(_id!)
   }
 

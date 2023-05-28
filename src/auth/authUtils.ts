@@ -26,7 +26,7 @@ export const createAccessToken = (user: TokenUser): string => {
     },
     secret,
     {
-      expiresIn: '1h',
+      expiresIn: '1m',
       algorithm: 'HS256'
     }
   )
@@ -43,7 +43,7 @@ export const decodeToken = (token: string) => {
   try {
     return jwt.verify(token, secret, { algorithms: ['HS256'] })
   } catch (e) {
-    console.error(e)
+    // console.error(e)
     return null
   }
 }

@@ -12,6 +12,7 @@ import { customAuthChecker } from './auth/authChecker'
 import { decodeToken } from './auth/authUtils'
 import { authMiddleware } from './auth/authMiddleware'
 import { ErrorInterceptor } from './middleware/errorLog'
+import { LogEvent } from './middleware'
 
 const app = express()
 const path = '/gql'
@@ -28,6 +29,13 @@ async function main() {
     schema,
     context: ({ req, res }: ApolloContext): Context => {
       const user = req.auth || null
+      if (req.body.operationName === `IntrospectionQuery`)
+        return { req, res, user }
+
+      LogEvent({
+        ...req.body,
+        user
+      })
       return { req, res, user }
     }
   })

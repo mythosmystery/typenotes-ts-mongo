@@ -29,7 +29,10 @@ export class NoteService {
 
   async update(note: Partial<Note>): Promise<Note> {
     const { _id, ...rest } = note
-    await this.db.updateOne({ _id }, { $set: rest })
+    await this.db.updateOne(
+      { _id },
+      { $set: { ...rest, updatedAt: new Date() } }
+    )
     return this.findById(_id!)
   }
 
