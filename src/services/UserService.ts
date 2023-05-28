@@ -32,7 +32,11 @@ export class UserService {
   }
 
   async create(userInput: UserInput): Promise<User> {
-    const user = new User(userInput)
+    const user = new User()
+    user.email = userInput.email
+    user.fullName = userInput.fullName
+    user.username = userInput.username
+    user.password = bcrypt.hashSync(userInput.password, 10)
     const { insertedId } = await this.db.insertOne(user, {})
     const createdUser = await this.db.findOne({ _id: insertedId })
     if (!createdUser) throw new Error('User not created')
@@ -59,6 +63,28 @@ export class UserService {
         $set: {
           password: hash,
           updatedAt: new Date()
+        }
+      }
+    )
+  }
+
+  async addNote(noteId: ObjectId, userId: ObjectId): Promise<void> {
+    await this.db.updateOne(
+      { _id: userId },
+      {
+        $push: {
+          notes: noteId
+        }
+      }
+    )
+  }
+
+  async removeNote(noteId: ObjectId, userId: ObjectId): Promise<void> {
+    await this.db.updateOne(
+      { _id: userId },
+      {
+        $pull: {
+          notes: noteId
         }
       }
     )

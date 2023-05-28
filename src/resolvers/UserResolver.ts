@@ -48,10 +48,11 @@ export class UserResolver {
   @Authorized()
   @Mutation(type => Boolean)
   async userDelete(@Ctx() ctx: Context) {
-    return Promise.all([
+    await Promise.all([
       this.noteService.deleteByUserId(new ObjectId(ctx.user!._id)),
       this.userService.delete(new ObjectId(ctx.user!._id))
     ])
+    return true
   }
 
   @FieldResolver(type => [Note])

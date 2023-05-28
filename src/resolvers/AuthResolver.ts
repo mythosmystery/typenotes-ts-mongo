@@ -1,32 +1,8 @@
 import { Resolver, Query, InputType, Field, Arg, Mutation } from 'type-graphql'
 import { UserService } from '../services'
-import { User } from '../models'
+import { LoginInput, RegisterInput, User } from '../models'
 import { Auth } from '../models'
 import { checkPassword, generateTokens } from '../auth/authUtils'
-
-@InputType()
-class LoginInput implements Partial<User> {
-  @Field()
-  email: string
-
-  @Field()
-  password: string
-}
-
-@InputType()
-class RegisterInput implements Partial<User> {
-  @Field()
-  email: string
-
-  @Field()
-  fullName: string
-
-  @Field()
-  username: string
-
-  @Field()
-  password: string
-}
 
 @Resolver(User)
 export class AuthResolver {

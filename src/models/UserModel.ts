@@ -22,7 +22,7 @@ export class User implements MDoc {
   password: string
 
   @Field(type => [Note])
-  notes: Note[]
+  notes: Note[] | ObjectId[]
 
   @Field()
   createdAt: Date
@@ -30,13 +30,9 @@ export class User implements MDoc {
   @Field()
   updatedAt: Date
 
-  constructor(d: UserInput) {
+  constructor() {
     this.createdAt = new Date()
     this.updatedAt = new Date()
     this.notes = []
-    this.password = bcrypt.hashSync(d.password, 10)
-    this.email = d.email
-    this.fullName = d.fullName
-    this.username = d.username
   }
 }

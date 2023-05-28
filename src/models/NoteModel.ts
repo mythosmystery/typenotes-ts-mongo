@@ -22,11 +22,8 @@ export class Note implements MDoc {
   @Field(type => User)
   createdBy: ObjectId | User
 
-  constructor(body: string, title: string, createdBy: string) {
+  constructor() {
     this.createdAt = new Date()
     this.updatedAt = new Date()
-    this.body = body
-    this.title = title
-    this.createdBy = new ObjectId(createdBy)
   }
 }

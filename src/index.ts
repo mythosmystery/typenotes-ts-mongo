@@ -11,6 +11,7 @@ import { ApolloContext, Context, TokenUser } from './types'
 import { customAuthChecker } from './auth/authChecker'
 import { decodeToken } from './auth/authUtils'
 import { authMiddleware } from './auth/authMiddleware'
+import { ErrorInterceptor } from './middleware/errorLog'
 
 const app = express()
 const path = '/gql'
@@ -19,7 +20,8 @@ async function main() {
   await startDB()
   const schema = await buildSchema({
     resolvers: [...resolvers] as any,
-    authChecker: customAuthChecker
+    authChecker: customAuthChecker,
+    globalMiddlewares: [ErrorInterceptor]
   })
 
   const server = new ApolloServer({

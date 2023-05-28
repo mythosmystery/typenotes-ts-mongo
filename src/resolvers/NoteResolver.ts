@@ -41,8 +41,13 @@ export class NoteResolver {
     @Arg('body') body: string,
     @Ctx() ctx: Context
   ) {
-    const note = new Note(body, title, ctx.user!._id)
-    return this.noteService.create(note)
+    const note = new Note()
+    note.title = title
+    note.body = body
+    note.createdBy = new ObjectId(ctx.user!._id)
+    const { _id } = await this.noteService.create(note)
+    await this.userService.addNote(_id!, new ObjectId(ctx.user!._id))
+    return { ...note, _id }
   }
 
   @Authorized()
@@ -69,7 +74,11 @@ export class NoteResolver {
     if (note.createdBy.toString() !== ctx.user!._id) {
       throw new Error('You can only delete notes you created')
     }
-    return this.noteService.delete(note._id!)
+    await Promise.all([
+      this.userService.removeNote(note._id!, new ObjectId(ctx.user!._id)),
+      this.noteService.delete(note._id!)
+    ])
+    return true
   }
 
   @FieldResolver(type => User)
