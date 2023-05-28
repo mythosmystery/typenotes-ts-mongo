@@ -10,7 +10,7 @@ import jwt from 'jsonwebtoken'
 import { ApolloContext, Context, TokenUser } from './types'
 import { customAuthChecker } from './auth/authChecker'
 import { decodeToken } from './auth/authUtils'
-import { authMiddleware } from './auth/middleware'
+import { authMiddleware } from './auth/authMiddleware'
 
 const app = express()
 const path = '/gql'
