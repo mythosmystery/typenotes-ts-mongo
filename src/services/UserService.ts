@@ -3,7 +3,7 @@ import { getCollection } from '../db'
 import { User } from '../models'
 import bcrypt from 'bcrypt'
 
-interface UserInput {
+export interface UserInput {
   email: string
   fullName: string
   username: string
@@ -19,8 +19,8 @@ export class UserService {
   async findAll(): Promise<User[]> {
     return this.db.find().toArray()
   }
-  async findById(id: string): Promise<User> {
-    const user = await this.db.findOne({ _id: new ObjectId(id) })
+  async findById(id: ObjectId): Promise<User> {
+    const user = await this.db.findOne({ _id: id })
     if (!user) throw new Error(`User with id ${id} not found`)
     return user
   }
@@ -32,17 +32,22 @@ export class UserService {
   }
 
   async create(userInput: UserInput): Promise<User> {
-    const user: User = {
-      ...userInput,
-      password: bcrypt.hashSync(userInput.password, 10),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      notes: []
-    }
+    const user = new User(userInput)
     const { insertedId } = await this.db.insertOne(user, {})
     const createdUser = await this.db.findOne({ _id: insertedId })
     if (!createdUser) throw new Error('User not created')
     return createdUser
+  }
+
+  async update(user: Partial<User>): Promise<User> {
+    const { _id, ...rest } = user
+    await this.db.updateOne({ _id }, { $set: rest })
+    return this.findById(_id!)
+  }
+
+  async delete(id: ObjectId): Promise<boolean> {
+    const { deletedCount } = await this.db.deleteOne({ _id: id })
+    return deletedCount === 1
   }
 
   async resetPassword(email: string, newPassword: string): Promise<void> {
