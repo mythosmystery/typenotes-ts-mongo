@@ -8,7 +8,7 @@ import {
   Arg,
   Mutation
 } from 'type-graphql'
-import { Auth, Note, User } from '../models'
+import { Auth, Note, NoteCreateInput, User } from '../models'
 import { NoteService, UserService } from '../services'
 import { Context } from '../types'
 import { ObjectId } from 'mongodb'
@@ -36,14 +36,12 @@ export class NoteResolver {
 
   @Authorized()
   @Mutation(returns => Note)
-  async noteCreate(
-    @Arg('title') title: string,
-    @Arg('body') body: string,
-    @Ctx() ctx: Context
-  ) {
+  async noteCreate(@Arg('data') data: NoteCreateInput, @Ctx() ctx: Context) {
     const note = new Note()
-    note.title = title
-    note.body = body
+    note.title = data.title
+    note.body = data.body || 'new note'
+    note.isPublic = data.isPublic
+    note.category = data.category || 'general'
     note.createdBy = new ObjectId(ctx.user!._id)
     const { _id } = await this.noteService.create(note)
     await this.userService.addNote(_id!, new ObjectId(ctx.user!._id))

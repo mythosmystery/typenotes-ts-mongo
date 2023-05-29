@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID } from 'type-graphql'
+import { ObjectType, Field, ID, InputType } from 'type-graphql'
 import { Document as MDoc, ObjectId } from 'mongodb'
 import { User } from './UserModel'
 
@@ -14,6 +14,12 @@ export class Note implements MDoc {
   body: string
 
   @Field()
+  isPublic: boolean
+
+  @Field()
+  category: string
+
+  @Field()
   createdAt: Date
 
   @Field()
@@ -26,4 +32,19 @@ export class Note implements MDoc {
     this.createdAt = new Date()
     this.updatedAt = new Date()
   }
+}
+
+@InputType()
+export class NoteCreateInput implements Partial<Note> {
+  @Field()
+  title: string
+
+  @Field()
+  isPublic: boolean
+
+  @Field({ nullable: true })
+  body?: string
+
+  @Field({ nullable: true })
+  category?: string
 }

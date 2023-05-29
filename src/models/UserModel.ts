@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID } from 'type-graphql'
+import { ObjectType, Field, ID, InputType } from 'type-graphql'
 import type { Document as MDoc, ObjectId } from 'mongodb'
 import { Note } from './NoteModel'
 import bcrypt from 'bcrypt'
