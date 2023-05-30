@@ -7,9 +7,11 @@ async function createIndexes() {
   await db.collection('User').createIndex({ email: 1 }, { unique: true })
   await db.collection('User').createIndex({ username: 1 }, { unique: true })
   await db.collection('Note').createIndex({ createdBy: 1 })
-  await db.collection('Note').createIndex({ path: 1 })
+  await db.collection('Note').createIndex({ category: 1 })
   await db.collection('Note').createIndex({ isPublic: 1 })
-  await db.collection('Note').createIndex({ body: 'text', title: 'text' })
+  await db
+    .collection('Note')
+    .createIndex({ body: 'text', title: 'text', category: 'text' })
 }
 
 createIndexes()

@@ -6,7 +6,8 @@ import {
   FieldResolver,
   Root,
   Arg,
-  Mutation
+  Mutation,
+  Int
 } from 'type-graphql'
 import { Auth, Note, NoteCreateInput, User } from '../models'
 import { NoteService, UserService } from '../services'
@@ -77,6 +78,20 @@ export class NoteResolver {
       this.noteService.delete(note._id!)
     ])
     return true
+  }
+
+  @Authorized()
+  @Mutation(returns => Int)
+  async notesUpdateCategory(
+    @Arg('oldCategory') oldCategory: string,
+    @Arg('newCategory') newCategory: string,
+    @Ctx() ctx: Context
+  ) {
+    return this.noteService.updateCategory(
+      oldCategory,
+      newCategory,
+      new ObjectId(ctx.user!._id)
+    )
   }
 
   @FieldResolver(type => User)

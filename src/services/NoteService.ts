@@ -36,6 +36,18 @@ export class NoteService {
     return this.findById(_id!)
   }
 
+  async updateCategory(
+    oldCategory: string,
+    newCategory: string,
+    userId: ObjectId
+  ): Promise<number> {
+    const { modifiedCount } = await this.db.updateMany(
+      { category: oldCategory, createdBy: userId },
+      { $set: { category: newCategory } }
+    )
+    return modifiedCount
+  }
+
   async delete(id: ObjectId): Promise<boolean> {
     const { deletedCount } = await this.db.deleteOne({ _id: id })
     return deletedCount === 1
