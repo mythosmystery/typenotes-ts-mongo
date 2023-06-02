@@ -94,8 +94,27 @@ export class NoteResolver {
     )
   }
 
+  @Authorized()
+  @Mutation(returns => Note)
+  async noteShare(
+    @Arg('id') id: string,
+    @Arg('userId') userId: string,
+    @Ctx() ctx: Context
+  ) {
+    const note = await this.noteService.findById(new ObjectId(id))
+    if (note.createdBy.toString() !== ctx.user!._id) {
+      throw new Error('You can only share notes you created')
+    }
+    await this.noteService.addSharedWith(new ObjectId(id), new ObjectId(userId))
+  }
+
   @FieldResolver(type => User)
   async createdBy(@Root() note: Note) {
     return this.userService.findById(note.createdBy as ObjectId)
+  }
+
+  @FieldResolver(type => [User])
+  async sharedWith(@Root() note: Note) {
+    return this.userService.findByIdList(note.sharedWith as ObjectId[])
   }
 }

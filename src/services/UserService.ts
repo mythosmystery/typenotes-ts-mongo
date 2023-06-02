@@ -92,4 +92,8 @@ export class UserService {
       }
     )
   }
+
+  async findByIdList(ids: ObjectId[]): Promise<User[]> {
+    return this.db.find({ _id: { $in: ids } }).toArray()
+  }
 }

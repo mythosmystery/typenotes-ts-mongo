@@ -19,6 +19,15 @@ export class Note implements MDoc {
   @Field()
   category: string
 
+  @Field(type => [User])
+  sharedWith: ObjectId[] | User[]
+
+  @Field(type => [ID])
+  likedBy: ObjectId[]
+
+  @Field()
+  likes: number
+
   @Field()
   createdAt: Date
 
@@ -31,6 +40,9 @@ export class Note implements MDoc {
   constructor() {
     this.createdAt = new Date()
     this.updatedAt = new Date()
+    this.likes = 0
+    this.sharedWith = []
+    this.likedBy = []
   }
 }
 

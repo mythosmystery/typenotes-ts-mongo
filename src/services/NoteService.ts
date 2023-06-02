@@ -57,4 +57,36 @@ export class NoteService {
     const { deletedCount } = await this.db.deleteMany({ createdBy: userId })
     return deletedCount > 0
   }
+
+  async addSharedWith(noteId: ObjectId, userId: ObjectId): Promise<boolean> {
+    const { modifiedCount } = await this.db.updateOne(
+      { _id: noteId },
+      { $addToSet: { sharedWith: userId } }
+    )
+    return modifiedCount === 1
+  }
+
+  async removeSharedWith(noteId: ObjectId, userId: ObjectId): Promise<boolean> {
+    const { modifiedCount } = await this.db.updateOne(
+      { _id: noteId },
+      { $pull: { sharedWith: userId } }
+    )
+    return modifiedCount === 1
+  }
+
+  async like(noteId: ObjectId, userId: ObjectId): Promise<boolean> {
+    const { modifiedCount } = await this.db.updateOne(
+      { _id: noteId },
+      { $addToSet: { likedBy: userId }, $inc: { likes: 1 } }
+    )
+    return modifiedCount === 1
+  }
+
+  async unlike(noteId: ObjectId, userId: ObjectId): Promise<boolean> {
+    const { modifiedCount } = await this.db.updateOne(
+      { _id: noteId },
+      { $pull: { likedBy: userId }, $inc: { likes: -1 } }
+    )
+    return modifiedCount === 1
+  }
 }
