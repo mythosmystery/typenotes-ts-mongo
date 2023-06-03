@@ -36,5 +36,6 @@ export class User implements MDoc {
     this.createdAt = new Date()
     this.updatedAt = new Date()
     this.notes = []
+    this.status = 'active'
   }
 }
