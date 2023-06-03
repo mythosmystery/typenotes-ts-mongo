@@ -14,6 +14,8 @@ RUN yarn install
 # Bundle app source
 COPY . .
 
+ENV MONGO_URL={MONGO_URL}
+
 # Build the TypeScript app
 RUN yarn build
 RUN yarn migrate
