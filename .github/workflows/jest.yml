@@ -21,3 +21,7 @@ jobs:
         env:
           CI: true
           MONGO_URL: mongodb://127.0.0.1:27019
+      - uses: gitboard-io/gitboard-action@main
+        with:
+          username: mythosmystery
+          key: d42059cb-9ddc-4e0a-a83f-85fee5fef28b

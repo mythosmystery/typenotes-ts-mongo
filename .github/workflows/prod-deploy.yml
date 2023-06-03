@@ -14,3 +14,7 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           password: ${{ secrets.DEPLOY_PWD }}
           script: ./deploy.sh typenotes-ts-mongo main
+      - uses: gitboard-io/gitboard-action@main
+        with:
+          username: mythosmystery
+          key: d42059cb-9ddc-4e0a-a83f-85fee5fef28b
