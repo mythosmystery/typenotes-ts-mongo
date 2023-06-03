@@ -15,7 +15,8 @@ RUN yarn install
 COPY . .
 
 # Build the TypeScript app
-RUN yarn build && yarn migrate
+RUN yarn build
+RUN yarn migrate
 
 # Expose port
 EXPOSE 4000
