@@ -24,7 +24,6 @@ export class AuthResolver {
       })
       return { user, accessToken, refreshToken }
     } catch (err) {
-      console.error(err)
       throw new Error('Login failed. Check your email and password')
     }
   }
