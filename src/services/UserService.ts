@@ -1,7 +1,7 @@
 import { Collection, ObjectId } from 'mongodb'
 import { getCollection } from '../db'
 import { User } from '../models'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 export interface UserInput {
   email: string

@@ -1,6 +1,6 @@
 import { TokenUser } from '../types'
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 const secret = process.env.TOKEN_SECRET || 'asdljasfaiowfoajwf'
 
