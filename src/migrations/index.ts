@@ -1,7 +1,7 @@
 import { getDB } from '../db'
 import { startDB } from '../db'
 
-async function createIndexes() {
+export async function createIndexes() {
   await startDB()
   const db = getDB()
   await db.collection('User').createIndex({ email: 1 }, { unique: true })
@@ -14,6 +14,7 @@ async function createIndexes() {
     .createIndex({ body: 'text', title: 'text', category: 'text' })
 }
 
-createIndexes()
-  .catch(console.error)
-  .finally(() => process.exit(0))
+if (!process.env.TEST)
+  createIndexes()
+    .catch(console.error)
+    .finally(() => process.exit(0))

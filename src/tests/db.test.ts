@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { getDB, startDB } from '.'
+import { getDB, startDB } from '../db'
 import { User } from '../models'
 
 test('startDB should return a client', async () => {
@@ -11,7 +11,7 @@ test('startDB should return a client', async () => {
 test('getDB should return a db', async () => {
   const db = await getDB()
   expect(db).toBeDefined()
-  expect(db.databaseName).toBe('app')
+  expect(db.databaseName).toBe('test')
 })
 
 test('getCollection should return a collection', async () => {

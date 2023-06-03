@@ -15,11 +15,19 @@ export const startDB = async (): Promise<MongoClient> => {
 }
 
 export const getDB = (): Db => {
-  return _client.db('app')
+  return _client.db(process.env.TEST ? 'test' : 'app')
 }
 
 export const getCollection = <T extends Document>(
   collName: string
 ): Collection<T> => {
   return getDB().collection<T>(collName)
+}
+
+export const closeDB = async (): Promise<void> => {
+  await _client.close()
+}
+
+export const clearDB = async (): Promise<void> => {
+  await _client.db('test').dropDatabase()
 }

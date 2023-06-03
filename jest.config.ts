@@ -4,6 +4,7 @@ const config: Config.InitialOptions = {
   verbose: true,
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
-  }
+  },
+  rootDir: 'src'
 }
 export default config

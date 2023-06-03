@@ -8,7 +8,7 @@
     "dev": "nodemon src/index.ts",
     "build": "tsc -p .",
     "migrate": "ts-node src/migrations/index.ts",
-    "test": "jest"
+    "test": "TEST=true jest"
   },
   "keywords": [],
   "author": "",
