@@ -15,7 +15,7 @@ RUN yarn install
 COPY . .
 
 # Set env from docker-compose
-ENV MONGO_URL=http://typenotes-mongo:27017
+ENV MONGO_URL=mongodb://typenotes-mongo:27017
 
 # Build the TypeScript app
 RUN yarn build
