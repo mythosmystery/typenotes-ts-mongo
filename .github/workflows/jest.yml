@@ -20,7 +20,7 @@ jobs:
           yarn test
         env:
           CI: true
-          MONGO_URL: ${{ env.MONGO_URL }}
+          MONGO_URL: ${{ vars.MONGO_URL }}
       - uses: gitboard-io/gitboard-action@main
         with:
           username: mythosmystery

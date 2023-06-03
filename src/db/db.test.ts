@@ -6,7 +6,7 @@ test('startDB should return a client', async () => {
   const client = await startDB()
   expect(client).toBeDefined()
   await client.close()
-}, 10_000)
+})
 
 test('getDB should return a db', async () => {
   const db = await getDB()
