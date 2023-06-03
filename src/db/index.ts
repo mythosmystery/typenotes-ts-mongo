@@ -1,3 +1,6 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 import { Collection, Db, MongoClient, Document } from 'mongodb'
 
 let _client: MongoClient
