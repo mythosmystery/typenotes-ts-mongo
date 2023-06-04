@@ -1,4 +1,4 @@
-import { Collection, ObjectId } from 'mongodb'
+import { Collection, Filter, ObjectId } from 'mongodb'
 import { getCollection } from '../db'
 import { Note } from '../models'
 
@@ -18,6 +18,15 @@ export class NoteService {
 
   async findById(id: ObjectId): Promise<Note> {
     const note = await this.db.findOne({ _id: id })
+    if (!note) throw new Error('Note not found')
+    return note
+  }
+
+  async findByIdPublic(id: string, userId?: string): Promise<Note> {
+    const note = await this.db.findOne({
+      _id: new ObjectId(id),
+      $or: [{ isPublic: true }, { createdBy: new ObjectId(userId) }]
+    })
     if (!note) throw new Error('Note not found')
     return note
   }

@@ -29,6 +29,11 @@ export class NoteResolver {
     return this.noteService.findById(new ObjectId(id))
   }
 
+  @Query(returns => Note)
+  async publicNoteById(@Arg('id') id: string, @Ctx() ctx: Context) {
+    return this.noteService.findByIdPublic(id, ctx.user?._id)
+  }
+
   @Authorized()
   @Query(returns => [Note])
   async noteByUser(@Ctx() ctx: Context) {
