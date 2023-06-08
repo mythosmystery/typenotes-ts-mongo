@@ -37,7 +37,8 @@ async function main() {
         user
       })
       return { req, res, user }
-    }
+    },
+    introspection: true
   })
 
   app.use(path, authMiddleware)
@@ -47,8 +48,12 @@ async function main() {
   server.applyMiddleware({ app, path })
 
   // Launch the express server
-  app.listen({ port: 4000 }, () =>
-    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+  app.listen({ port: process.env.PORT || 4000 }, () =>
+    console.log(
+      `🚀 Server ready at http://localhost${process.env.PORT || 4000}${
+        server.graphqlPath
+      }`
+    )
   )
 }
 
